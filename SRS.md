@@ -18,7 +18,6 @@
 Для использования приложения нужен один из следующих браузеров:
 - Chrome и другие браузеры основанные на Chromiuim
 - Firefox
-- Internet Explorer версии не ниже 10
 - Microsoft Edge
 - Opera
 - Safari (только для Mac, версия для Windows не поддерживается)

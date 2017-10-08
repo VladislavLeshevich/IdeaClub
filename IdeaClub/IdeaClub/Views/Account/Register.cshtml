@@ -1,0 +1,78 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+<link href="~/css/LoginPage.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+            <h4>Create a new account.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-default">Register</button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row pull-right">
+        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="form-signin mg-btm">
+            <h3 class="heading-desc">
+                Login to IdeaClub
+            </h3>
+            <div class="social-box">
+                <div class="row mg-btm">
+                    <div class="col-md-12">
+                        <a href="#" class="btn btn-primary btn-block">
+                            <i class="icon-facebook"></i>    Login with Facebook
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="#" class="btn btn-info btn-block">
+                            <i class="icon-twitter"></i>    Login with Twitter
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <input asp-for="Email" type="text" class="form-control" placeholder="Email" autofocus>
+                <span asp-validation-for="Email" class="text-danger"></span>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Config password">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                <span class="clearfix"></span>
+            </div>
+            <div class="login-footer">
+                <div class="row">
+                    <div class="col-xs-5 col-md-5 pull-right">
+                        <button type="submit" class="btn btn-large btn-danger pull-right">Register</button>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-large btn-danger pull-right">Register</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
