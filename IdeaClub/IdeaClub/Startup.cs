@@ -19,9 +19,9 @@ namespace IdeaClub
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -36,13 +36,29 @@ namespace IdeaClub
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Add application services.
+            services.AddAuthentication().AddTwitter(twitterOptions =>
+            {
+                twitterOptions.ConsumerKey = "OywHkuC1guvdKR8AJd5sekMy5";
+                twitterOptions.ConsumerSecret = "YBU992muOboPPkVq4mNTZttmLRNRZENukai5X97lOoJrVPO8FW";
+            });
+
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = "295941230814904";
+                facebookOptions.AppSecret = "a0108464919aa45050ca38361d215264";
+            });
+
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = "302541995228-fhtrtbuvfm8o9okqc4j4m7qkthfd4ld3.apps.googleusercontent.com";
+                googleOptions.ClientSecret = "QwDkAnKiXWak2he_EN8M5IiE";
+            });
+
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -66,6 +82,7 @@ namespace IdeaClub
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }
