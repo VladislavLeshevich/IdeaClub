@@ -2,9 +2,8 @@
 @{
     ViewData["Title"] = "Register";
 }
-<link href="~/css/LoginPage.css" rel="stylesheet" />
 
-<div class="container">
+@*<div class="container">
     <div class="row pull-right">
         <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="form-signin mg-btm">
             <h3 class="heading-desc">
@@ -45,7 +44,29 @@
             <button type="submit" class="btn btn-large btn-danger pull-right">Register</button>
         </form>
     </div>
+</div>*@
+
+<div id="wrapper">
+    <div class="login-form">
+        <div class="header">
+            <h1>Registration</h1>
+        </div>
+        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+            <div class="content">
+                <input asp-for="Email" type="text" class="input username" placeholder="Email" autofocus>
+                <span asp-validation-for="Email" class="text-danger"></span>
+                <input asp-for="Password" type="password" class="input password" placeholder="Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+                <input asp-for="ConfirmPassword" type="password" class="input password" placeholder="Config password">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="footer">
+                <input type="submit" name="submit" value="Register" class="buttonreg"/>
+            </div>
+        </form>
+    </div>
 </div>
+<div class="gradient"></div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

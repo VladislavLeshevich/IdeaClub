@@ -4,19 +4,18 @@ using System.Threading.Tasks;
 
 namespace IdeaClub.Services
 {
-    public class EmailService
+    public class EmailConfirmationSender : IEmailSender
     {
-        private const string _smtpServer = "smtp.gmail.com";
-        private const int _smtpPortNumber = 587;
-        private const string _email = "ideaClub12343@gmail.com";
-        private const string _password = "cc7b35e1";
-
+        private const string SmtpServer = "smtp.gmail.com";
+        private const int SmtpPortNumber = 587;
+        private const string Email = "ideaClub12343@gmail.com";
+        private const string Password = "cc7b35e1";
 
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Adinistration", _email));
+            emailMessage.From.Add(new MailboxAddress("Adinistration", Email));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -26,8 +25,8 @@ namespace IdeaClub.Services
 
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync(_smtpServer, _smtpPortNumber, false);
-                await client.AuthenticateAsync(_email, _password);
+                await client.ConnectAsync(SmtpServer, SmtpPortNumber, false);
+                await client.AuthenticateAsync(Email, Password);
                 await client.SendAsync(emailMessage);
                 await client.DisconnectAsync(true);
             }
