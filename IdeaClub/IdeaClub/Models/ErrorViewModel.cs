@@ -1,5 +1,3 @@
-using System;
-
 namespace IdeaClub.Models
 {
     public class ErrorViewModel

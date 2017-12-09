@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdeaClub.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using IdeaClub.Models;
 using IdeaClub.Models.AccountViewModels;
+using IdeaClub.Models.UsersInfoTables;
 using IdeaClub.Services;
+using System.Linq;
 
 namespace IdeaClub.Controllers
 {
@@ -20,17 +23,20 @@ namespace IdeaClub.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private ApplicationDbContext _db;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _db = db;
         }
 
         [TempData]
@@ -313,6 +319,13 @@ namespace IdeaClub.Controllers
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    var userProfile = new UserProfile
+                    {
+                        User = _db.Users.FirstOrDefault(p => p.Id == user.Id),
+                        FullName = user.UserName
+                    };
+                    _db.UserProfile.Add(userProfile);
+                    _db.SaveChanges();
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
@@ -342,6 +355,16 @@ namespace IdeaClub.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{userId}'.");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                var userProfile = new UserProfile
+                {
+                    User = _db.Users.FirstOrDefault(p => p.Id == user.Id),
+                    FullName = user.UserName
+                };
+                _db.UserProfile.Add(userProfile);
+                _db.SaveChanges();
+            }
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 

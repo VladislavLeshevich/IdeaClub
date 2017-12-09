@@ -1,0 +1,14 @@
+﻿@model IEnumerable<IdeaClub.Models.UsersInfoTables.Photos>
+@{
+    ViewData["Title"] = "_Photos";
+}
+
+@if (Model != null)
+{
+    foreach (var photo in Model)
+    {
+        <div class="col-sm-4" style="margin-top: 3%">
+            <img src=@photo?.UrlPhotos style="width: 100%; height: 260px"/>
+        </div>
+    }
+}

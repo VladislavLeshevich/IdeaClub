@@ -3,10 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-IdeaClub-3E0D7EE4-BFD0-4DA0-93C7-15AF03075710</UserSecretsId>
+    <ApplicationIcon></ApplicationIcon>
   </PropertyGroup>
 
 
   <ItemGroup>
+    <PackageReference Include="Cloudinary.Core" Version="1.31.0" />
+    <PackageReference Include="Cloudinary.Core.DependencyInjection" Version="1.31.0" />
+    <PackageReference Include="Cloudinary.Core.Html" Version="1.31.0" />
     <PackageReference Include="MailKit" Version="1.22.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="2.0.1" />

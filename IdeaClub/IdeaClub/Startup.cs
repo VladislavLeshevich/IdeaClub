@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IdeaClub.Data;
 using IdeaClub.Models;
+using IdeaClub.Models.UsersInfoTables;
 using IdeaClub.Services;
 
 namespace IdeaClub

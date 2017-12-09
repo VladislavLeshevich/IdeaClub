@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using IdeaClub.Models;
 using IdeaClub.Models.ManageViewModels;
+using IdeaClub.Models.UsersInfoTables;
 using IdeaClub.Services;
 
 namespace IdeaClub.Controllers
