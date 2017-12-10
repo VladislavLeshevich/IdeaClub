@@ -322,7 +322,8 @@ namespace IdeaClub.Controllers
                     var userProfile = new UserProfile
                     {
                         User = _db.Users.FirstOrDefault(p => p.Id == user.Id),
-                        FullName = user.UserName
+                        FullName = user.UserName,
+                        UrlPhoto = "https://bootdey.com/img/Content/avatar/avatar6.png"
                     };
                     _db.UserProfile.Add(userProfile);
                     _db.SaveChanges();
@@ -360,7 +361,8 @@ namespace IdeaClub.Controllers
                 var userProfile = new UserProfile
                 {
                     User = _db.Users.FirstOrDefault(p => p.Id == user.Id),
-                    FullName = user.UserName
+                    FullName = user.UserName,
+                    UrlPhoto = "https://bootdey.com/img/Content/avatar/avatar6.png"
                 };
                 _db.UserProfile.Add(userProfile);
                 _db.SaveChanges();

@@ -314,7 +314,7 @@ namespace IdeaClub.Migrations
             modelBuilder.Entity("IdeaClub.Models.UsersInfoTables.CommentsToActivities", b =>
                 {
                     b.HasOne("IdeaClub.Models.UsersInfoTables.Activities", "Activities")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("ActivitiesId");
 
                     b.HasOne("IdeaClub.Models.UsersInfoTables.UserProfile", "UserProfile")

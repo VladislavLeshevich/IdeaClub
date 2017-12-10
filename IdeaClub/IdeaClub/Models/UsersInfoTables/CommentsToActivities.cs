@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace IdeaClub.Models.UsersInfoTables
 {
@@ -13,7 +14,6 @@ namespace IdeaClub.Models.UsersInfoTables
         public string Text { get; set; }
 
         public UserProfile UserProfile { get; set; }
-        
         public Activities Activities { get; set; }
     }
 }

@@ -1,0 +1,68 @@
+﻿@model IdeaClub.Models.ModelView
+
+
+@{
+    ViewData["Title"] = "_Activities";
+}
+
+
+
+@if (Model.UserProfile?.Activities != null)
+{
+    foreach (var activity in Model.UserProfile.Activities.OrderByDescending(activity => activity.DateTime))
+    {
+        <div class="i" style="margin-top: 2%">
+            <a href="#" title="#" class="image">
+                <img src=@activity.UserProfile.UrlPhoto alt="#" style="border-radius: 50%; width: 50px; height: 50px">
+            </a>
+            <div class="activityContent">
+                <ul class="simpleListings status">
+                    <li>
+                        <a href="#" title="#" class="itemOptions"><i class="fa fa-cog"></i></a>
+                        <div class="title">
+                            <a href="#" title="#">@activity.UserProfile.FullName</a>
+                        </div>
+                        <div class="info">@activity.DateTime</div>
+                        <p>@activity.Text</p>
+                        <div class="share">
+                            <a href="#" title="#"><i class="fa fa-thumbs-up"></i> 26 likes</a>
+                            <a href="#" title="#"><i class="fa fa-comments"></i> 14 comments</a>
+                        </div>
+                    </li>
+                </ul>
+                <!-- Comments -->
+                
+                <ul class="simpleListings comments">
+                    
+                    @foreach (var comment in activity.Comments)
+                    {
+                        <li>
+                            <a asp-controller="Home" asp-action="Index" asp-route-id="@comment.UserProfile?.Id" class="image">
+                                <img src=@comment.UserProfile?.UrlPhoto alt="#" style="border-radius: 50%; width: 50px; height: 50px">
+                            </a>
+                            <div class="c">
+                                <div class="title"><a href="#" title="#">@comment.UserProfile?.FullName</a>
+                                </div>
+                                <div class="info">@comment.DateTime</div>
+                                <p>@comment.Text</p>
+                            </div>
+                        </li>
+                    }
+                    <li>
+                        @*<a href="#" title="#" class="image">*@
+                        <a asp-controller="Home" asp-action="Index" asp-route-id="@Model.CurrentUserProfile?.Id" class="image">
+                            <img src=@Model.CurrentUserProfile?.UrlPhoto alt="#" style="border-radius: 50%; width: 50px; height: 50px">
+                        </a>
+                        <div class="c">
+                            <form method="post" asp-controller="Home" asp-action="AddCommentToActivity">
+                                <textarea rows="3" name="text" placeholder="Start typing here..." class="form-control js-autogrow" style="overflow: hidden; word-wrap: break-word;"></textarea>
+                                <input name="id" class="hidden" value=@activity.Id />
+                                <button type="submit" class="btn btn-sm" style="background-color: #1da1f2; color: white">Post Comment</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+}

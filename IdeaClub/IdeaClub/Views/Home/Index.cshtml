@@ -1,6 +1,15 @@
-﻿@model IdeaClub.Models.UsersInfoTables.UserProfile
+﻿@using IdeaClub.Models
+@using IdeaClub.Models.UsersInfoTables
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model ModelView
 @{
     ViewData["Title"] = "Home Page";
+}
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    bool isYourPage = UserManager.GetUserId(User) == Model.UserProfile.User.Id;
 }
 
 <div class="container">
@@ -8,24 +17,21 @@
     <div class="row">
         <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="userProfileInfo">
-                <div class="image text-center" >
-                    @if (Model?.UrlPhoto != null)
+                <div class="image text-center">
+                    <img src=@Model.UserProfile.UrlPhoto alt="#" class="img-responsive" style="width: 100%; height: 265px">
+                    @if (isYourPage)
                     {
-                        <img src=@Model.UrlPhoto alt="#" class="img-responsive" style="width: 100%; height: 265px">
+                        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="ChangeMainPhoto" class="editImage">
+                            <label class="fa fa-camera">
+                                <input class="hidden" name="photo" type="file" onchange="ChangeMainImage()" />
+                            </label>
+                            <input type="submit" class="hidden" id="Change" value="Upload" />
+                        </form>
                     }
-                    else
-                    {
-                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="#" class="img-responsive">
-                    }
-                    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="ChangeMainPhoto" class="editImage"> 
-                        <label class="fa fa-camera">
-                            <input class="hidden" name="photo" type="file" onchange="ChangeMainImage()"/>
-                        </label>
-                        <input type="submit" class="hidden" id="Change" value="Upload" />
-                    </form>
                 </div>
                 <div class="box">
-                    <div class="name"><strong>Vladislav Leshevich</strong>
+                    <div class="name">
+                        <strong>Vladislav Leshevich</strong>
                     </div>
                     <div class="info">
                         <span><i class="fa fa-fw fa-clock-o"></i> <a>+375-44-761-00-48</a></span>
@@ -59,27 +65,50 @@
 
                 <div class="tab-content">
                     <!-- About -->
-                    <div role="tabpanel" class="tab-pane fade" id="tab-item-1">
+                    <div role="tabpanel" class="tab-pane fade" id="tab-item-1" style="margin-top: 2%">
                         <div class="userProfileContent">
+                            @await Html.PartialAsync("_About")
                         </div>
                     </div>
 
                     <!-- Activities -->
                     <div role="tabpanel" class="tab-pane fade active in" id="tab-item-2">
                         <div class="userActivities">
+                            @if (isYourPage)
+                            {
+                                <div class="i">
+                                    <ul class="simpleListings comments">
+                                        <li>
+                                            <a asp-controller="Home" asp-action="Index" asp-route-id="@Model.UserProfile?.Id" class="image">
+                                                <img src=@Model.UserProfile.UrlPhoto alt="#" style="border-radius: 50%; width: 50px; height: 50px">
+                                            </a>
+                                            <div class="c">
+                                                <form method="post" asp-controller="Home" asp-action="AddActivity">
+                                                    <textarea rows="5" placeholder="Start typing here..." class="form-control js-autogrow" name="text" style="overflow: hidden; word-wrap: break-word;"></textarea>
+                                                    <button type="submit" class="btn btn-sm" style="background-color: #1da1f2; color: white">Post Activities</button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                            @await Html.PartialAsync("_Activities", Model)
                         </div>
                     </div>
 
                     <!-- Photos -->
                     <div role="tabpanel" class="tab-pane fade row" id="tab-item-3">
-                        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="AddNewPhoto" style="text-align: center">
-                            <label class="btn btn-default" style="margin-top: 3%; color: white; background-color: #1da1f2">
-                                Add Photo
-                                <input class="hidden" name="photo" type="file" onchange="AddImage()" />
-                            </label>
-                            <input type="submit" class="hidden" id="newImage" value="Upload" />
-                        </form>
-                        @await Html.PartialAsync("_Photos", Model?.Photos)
+                        @if (isYourPage)
+                        {
+                            <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="AddNewPhoto" style="text-align: center">
+                                <label class="btn btn-default" style="margin-top: 3%; color: white; background-color: #1da1f2">
+                                    Add Photo
+                                    <input class="hidden" name="photo" type="file" onchange="AddImage()"/>
+                                </label>
+                                <input type="submit" class="hidden" id="newImage" value="Upload"/>
+                            </form>
+                        }
+                        @await Html.PartialAsync("_Photos", Model.UserProfile?.Photos)
                     </div>
 
                     <!-- Friends -->
